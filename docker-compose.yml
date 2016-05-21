@@ -17,23 +17,32 @@ php:
         - app
 
 app:
-   image: php:7.0-fpm
-   volumes:
+    image: php:7.0-fpm
+    volumes:
         - .:/var/www/html
-   command: "true"
+    command: "true"
 
 mysql:
-   image: mysql:latest
-   volumes_from:
+    image: mysql:latest
+    volumes_from:
         - data
-   environment:
+    environment:
         MYSQL_ROOT_PASSWORD: secret
         MYSQL_DATABASE: project
         MYSQL_USER: project
         MYSQL_PASSWORD: project
 
 data:
-   image: mysql:latest
-   volumes:
+    image: mysql:latest
+    volumes:
         - /var/lib/mysql
-   command: "true"
+    command: "true"
+    
+phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+        - 8080:80
+    links:
+        - mysql
+    environment: 
+        PMA_HOST: mysql
